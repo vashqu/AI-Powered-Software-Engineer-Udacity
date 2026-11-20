@@ -1,0 +1,35 @@
+# Applies to every project in this repo.
+
+# Python run byproducts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Flask generated/runtime files (not the frontend source, which is tracked)
+instance/
+.webassets-cache
+
+# Secrets and logs
+.env
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
