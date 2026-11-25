@@ -7,3 +7,4 @@ This repository holds all of my projects for Udacity's **AI Powered Software Eng
 | Folder | Project | Summary |
 |---|---|---|
 | [cd14599-project-starter](cd14599-project-starter/) | Udatracker | An order-tracking app (Python + Flask) built test-first with TDD. |
+| [cd14600-project-starter](cd14600-project-starter/) | Personal Finance Manager | A modular Python finance tracker using Singleton, Adapter, Observer, and Command patterns with Dependency Injection. |
