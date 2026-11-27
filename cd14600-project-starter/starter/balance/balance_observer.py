@@ -19,16 +19,22 @@ class PrintObserver(IBalanceObserver):
 
     def update(self, balance, transaction):
         """Print balance update message."""
-        details = f" ({transaction.description})" if getattr(transaction, "description", "") else ""
+        desc = getattr(transaction, "description", "")
+        details = f" ({desc})" if desc else ""
         self._output_handler(
-            f"[Balance Update] {transaction}{details} -> Current Balance: ${balance:.2f}"
+            f"[Balance Update] {transaction}{details} "
+            f"-> Current Balance: ${balance:.2f}"
         )
 
 
 class LowBalanceAlertObserver(IBalanceObserver):
-    """Triggers an alert whenever the balance drops below a defined threshold."""
+    """Triggers an alert when the balance drops below a defined threshold."""
 
-    def __init__(self, threshold: float, alert_handler: Callable[[str], None] = print):
+    def __init__(
+        self,
+        threshold: float,
+        alert_handler: Callable[[str], None] = print,
+    ):
         self.threshold = threshold
         self._alert_handler = alert_handler
         self.alert_triggered = False
@@ -38,7 +44,8 @@ class LowBalanceAlertObserver(IBalanceObserver):
         if balance < self.threshold:
             self.alert_triggered = True
             self._alert_handler(
-                f"[LOW BALANCE ALERT] Balance (${balance:.2f}) is below threshold (${self.threshold:.2f})!"
+                f"[LOW BALANCE ALERT] Balance (${balance:.2f}) "
+                f"is below threshold (${self.threshold:.2f})!"
             )
         else:
             self.alert_triggered = False

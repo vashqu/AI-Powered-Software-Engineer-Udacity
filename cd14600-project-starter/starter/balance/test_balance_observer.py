@@ -17,22 +17,34 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
 
     def test_alert_triggers_on_low_balance(self):
         alerts = []
-        observer = LowBalanceAlertObserver(threshold=50, alert_handler=alerts.append)
+        observer = LowBalanceAlertObserver(
+            threshold=50, alert_handler=alerts.append
+        )
         self.balance.register_observer(observer)
 
-        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(100, TransactionCategory.INCOME)
+        )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(60, TransactionCategory.EXPENSE)
+        )
         self.assertTrue(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(100, TransactionCategory.INCOME)
+        )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(60, TransactionCategory.EXPENSE)
+        )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(60, TransactionCategory.EXPENSE)
+        )
         self.assertTrue(observer.alert_triggered)
         self.assertEqual(len(alerts), 2)
 

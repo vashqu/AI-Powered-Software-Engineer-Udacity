@@ -70,16 +70,22 @@ class TestBalance(unittest.TestCase):
 
     def test_summary(self):
         self.balance.add_income(125.5)
-        self.assertEqual(self.balance.summary(), "Current Net Balance: $125.50")
+        self.assertEqual(
+            self.balance.summary(), "Current Net Balance: $125.50"
+        )
 
     def test_unregister_observer_stops_notifications(self):
         observer = _RecordingObserver()
         self.balance.register_observer(observer)
-        self.balance.apply_transaction(Transaction(50, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(50, TransactionCategory.INCOME)
+        )
         self.assertEqual(len(observer.events), 1)
 
         self.balance.unregister_observer(observer)
-        self.balance.apply_transaction(Transaction(25, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(25, TransactionCategory.INCOME)
+        )
         self.assertEqual(len(observer.events), 1)
 
 

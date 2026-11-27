@@ -41,7 +41,9 @@ class ApplyTransactionCommand(ITransactionCommand):
     def undo(self):
         """Apply an inverse transaction to reverse the original change."""
         if not self._executed:
-            raise RuntimeError("Cannot undo a command that has not been executed.")
+            raise RuntimeError(
+                "Cannot undo a command that has not been executed."
+            )
 
         if self.transaction.category == TransactionCategory.INCOME:
             reverse_category = TransactionCategory.EXPENSE
@@ -49,7 +51,8 @@ class ApplyTransactionCommand(ITransactionCommand):
             reverse_category = TransactionCategory.INCOME
         else:
             raise ValueError(
-                f"Cannot undo transaction with invalid category: {self.transaction.category}"
+                "Cannot undo transaction with invalid category: "
+                f"{self.transaction.category}"
             )
 
         reverse_desc = (
@@ -65,20 +68,20 @@ class ApplyTransactionCommand(ITransactionCommand):
 
 
 class TransactionManager:
-    """Invoker that executes transaction commands and maintains undo/redo history."""
+    """Invoker that executes commands and maintains undo/redo history."""
 
     def __init__(self):
         self._history = []
         self._redo_stack = []
 
     def execute_command(self, command: ITransactionCommand):
-        """Execute a command, record it in history, and clear the redo stack."""
+        """Execute a command, record it in history, and clear redo stack."""
         command.execute()
         self._history.append(command)
         self._redo_stack.clear()
 
     def undo_last(self):
-        """Undo the most recently executed command, or return None if empty."""
+        """Undo the most recently executed command, or return None."""
         if not self._history:
             return None
         command = self._history.pop()
@@ -87,7 +90,7 @@ class TransactionManager:
         return command
 
     def redo_last(self):
-        """Re-execute the most recently undone command, or return None if empty."""
+        """Re-execute the most recently undone command, or return None."""
         if not self._redo_stack:
             return None
         command = self._redo_stack.pop()
@@ -96,5 +99,5 @@ class TransactionManager:
         return command
 
     def get_history(self):
-        """Return a shallow copy of executed commands in chronological order."""
+        """Return a shallow copy of executed commands in order."""
         return list(self._history)

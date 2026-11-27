@@ -6,7 +6,12 @@ from transaction.transaction_category import TransactionCategory
 class Transaction:
     """Represents a financial transaction with an amount and category."""
 
-    def __init__(self, amount, category: TransactionCategory, description: str = ""):
+    def __init__(
+        self,
+        amount,
+        category: TransactionCategory,
+        description: str = "",
+    ):
         self.amount = amount
         self.category = category
         self.description = description

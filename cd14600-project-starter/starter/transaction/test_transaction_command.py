@@ -10,7 +10,7 @@ from transaction.transaction_command import (
 
 
 class _FakeBalance:
-    """Lightweight fake receiver to test commands in isolation via Dependency Injection."""
+    """Lightweight fake receiver for isolated Dependency Injection tests."""
 
     def __init__(self):
         self.applied = []
@@ -27,7 +27,9 @@ class TestTransactionCommand(unittest.TestCase):
 
     def test_command_works_with_injected_fake_balance(self):
         fake_balance = _FakeBalance()
-        txn = Transaction(250, TransactionCategory.INCOME, description="Consulting")
+        txn = Transaction(
+            250, TransactionCategory.INCOME, description="Consulting"
+        )
         cmd = ApplyTransactionCommand(fake_balance, txn)
 
         cmd.execute()
@@ -39,7 +41,9 @@ class TestTransactionCommand(unittest.TestCase):
             fake_balance.applied[1],
             Transaction(250, TransactionCategory.EXPENSE),
         )
-        self.assertEqual(fake_balance.applied[1].description, "Undo: Consulting")
+        self.assertEqual(
+            fake_balance.applied[1].description, "Undo: Consulting"
+        )
 
     def test_double_execute_raises_runtime_error(self):
         cmd = ApplyTransactionCommand(
@@ -87,7 +91,9 @@ class TestTransactionCommand(unittest.TestCase):
 
     def test_undo_notifies_observers(self):
         alerts = []
-        observer = LowBalanceAlertObserver(threshold=100, alert_handler=alerts.append)
+        observer = LowBalanceAlertObserver(
+            threshold=100, alert_handler=alerts.append
+        )
         self.balance.register_observer(observer)
 
         manager = TransactionManager()

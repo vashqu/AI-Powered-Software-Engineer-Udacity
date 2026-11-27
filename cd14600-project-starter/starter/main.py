@@ -19,19 +19,21 @@ def main():
     balance = Balance.get_instance()
     balance.reset()
 
-    # 2. Observer Pattern: register observers for live logging and low-balance alerts
+    # 2. Observer Pattern: register observers for logging and alerts
     balance.register_observer(PrintObserver())
     balance.register_observer(LowBalanceAlertObserver(threshold=100))
 
     # 3. Standard transactions
     transactions = [
-        Transaction(100, TransactionCategory.INCOME, description="Initial deposit"),
+        Transaction(
+            100, TransactionCategory.INCOME, description="Initial deposit"
+        ),
         Transaction(50, TransactionCategory.EXPENSE, description="Groceries"),
         Transaction(200, TransactionCategory.INCOME, description="Side gig"),
         Transaction(75, TransactionCategory.EXPENSE, description="Utilities"),
     ]
 
-    # 4. Adapter Pattern: convert external freelance income into a standard Transaction
+    # 4. Adapter Pattern: convert external freelance income to Transaction
     freelance_income = ExternalFreelanceIncome(
         1200, "INV-98765", "Mobile App Project"
     )
@@ -40,7 +42,7 @@ def main():
 
     all_transactions = transactions + [adapted_transaction]
 
-    # 5. Command Pattern + Dependency Injection: execute transactions via commands
+    # 5. Command Pattern + Dependency Injection: execute via commands
     manager = TransactionManager()
     print("Applying transactions...")
     for txn in all_transactions:
